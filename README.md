@@ -1,84 +1,65 @@
-# MySQL Connector/J
+# mysql-connector-jsl
 
-[![GitHub top language](https://img.shields.io/github/languages/top/mysql/mysql-connector-j?label=Java&color=5382a1)](https://github.com/mysql/mysql-connector-j/tree/release/8.0/src) [![License: GPLv2 with FOSS exception](https://img.shields.io/badge/License-GPLv2_with_FOSS_exception-c30014.svg)](LICENSE) [![Maven Central](https://img.shields.io/maven-central/v/com.mysql/mysql-connector-j?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.mysql%22%20AND%20a:%22mysql-connector-j%22)
+## 版权和许可证
 
-MySQL provides connectivity for client applications developed in the Java programming language with MySQL Connector/J, a driver that implements the [Java Database Connectivity (JDBC) API](https://www.oracle.com/technetwork/java/javase/jdbc/) and also [MySQL X DevAPI](https://dev.mysql.com/doc/x-devapi-userguide/en/).
+本项目基于 [MySQL Connector/J](https://github.com/mysql/mysql-connector-j) 开源项目进行二次开发，  
+继承并遵守其 [GPL 2.0 + FOSS Exception](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html) 许可证。  
 
-MySQL Connector/J 8.0 is a JDBC Type 4 driver that is compatible with the [JDBC 4.2](https://docs.oracle.com/javase/8/docs/technotes/guides/jdbc/) specification. The Type 4 designation means that the driver is a pure Java implementation of the MySQL protocol and does not rely on the MySQL client libraries.
+您可以在遵守该许可证条款的前提下，免费使用、修改和分发本项目的代码。  
+如果您将本项目用于商业用途或发布二次作品，请务必详细阅读并遵守原项目的开源协议。
 
-The driver also contains an implementation of [MySQL X DevAPI](https://dev.mysql.com/doc/x-devapi-userguide/en/), an application programming interface for working with [MySQL as a Document Store](https://dev.mysql.com/doc/refman/8.0/en/document-store.html) through CRUD-based, NoSQL operations.
+---
 
-For more information, please visit the official [MySQL Connector/J documentation](https://dev.mysql.com/doc/connector-j/8.0/en/).
+## 目录
 
-## Licensing
+- [项目简介](#项目简介)
+- [主要特性](#主要特性)
+- [快速开始](#快速开始)
+- [使用说明](#使用说明)
+- [兼容性](#兼容性)
+- [贡献者](#贡献者)
+- [许可证](#许可证)
+- [联系方式](#联系方式)
 
-Please refer to the [README](README) and [LICENSE](LICENSE) files, available in this repository, and the [Legal Notices in the MySQL Connector/J documentation](https://dev.mysql.com/doc/connector-j/8.0/en/preface.html) for further details.
+---
 
-## Getting the Latest Release
+## 项目简介
 
-MySQL Connector/J is free for usage under the terms of the specified licensing and it runs on any operating system that is able to run a Java Virtual Machine.
+mysql-connector-jsl 是基于 MySQL 官方 Connector/J 驱动开发的增强版本，旨在满足以下需求：
 
-### Download and Install
+- 支持更灵活的连接管理
+- 增强日志和监控功能
+- 优化批量操作性能
+- 修复官方版本中的部分已知问题
 
-MySQL Connector/J can be installed from pre-compiled packages that can be downloaded from the [MySQL Connector/J download page](https://dev.mysql.com/downloads/connector/j/). Installing MySQL Connector/J only requires obtaining the corresponding JAR file from the downloaded bundle or installer and including it in the application's CLASSPATH.
+本项目保留官方驱动所有核心功能，保证兼容性和稳定性。
 
-According to how you use MySQL Connector/J, you may also need to install the following third-party libraries on your system for it to work:
-* Protocol Buffers (protobuf-java) is required for using X DevAPI
-* Oracle Cloud Infrastructure SDK for Java (oci-java-sdk) is required to support OCI AIM authentication
-* Simple Logging Facade API (slf4j-api) is required for using the logging capabilities provided by the default implementation of org.slf4j.Logger.Slf4JLogger by MySQL Connector/J 
+---
 
-### As a Maven Dependency
+## 主要特性
 
-Alternatively, MySQL Connector/J can be obtained automatically via [Maven's dependency management](https://search.maven.org/search?q=g:%22com.mysql%22%20AND%20a:%22mysql-connector-j%22) by adding the following configuration in the application's Project Object Model (POM) file:
+- 兼容官方 Connector/J 的所有功能和配置
+- 新增高级连接池和自动重连机制
+- 支持自定义日志级别和日志格式
+- 优化批量插入和更新性能
+- 增强错误诊断信息，便于排查问题
+- 修复官方驱动中的若干 BUG（详细见[更新日志](CHANGELOG.md)）
+
+---
+
+## 快速开始
+
+### Maven 引入
 
 ```xml
 <dependency>
-  <groupId>com.mysql</groupId>
-  <artifactId>mysql-connector-j</artifactId>
-  <version>8.0.33</version>
+  <groupId>com.yourorg</groupId>
+  <artifactId>mysql-connector-jsl</artifactId>
+  <version>1.0.0</version>
 </dependency>
 ```
 
-MySQL Connector/J's own Project Object Model (POM) file specifies a transitive dependency to Protocol Buffers (protobuf-java) since it is required for using X DevAPI. However, if you do not use the X DevAPI features, you may also want to add a dependency exclusion to avoid linking the unneeded sub-library. For example:
+## 联系方式
 
-```xml
-<dependency>
-  <groupId>com.mysql</groupId>
-  <artifactId>mysql-connector-j</artifactId>
-  <version>8.0.33</version>
-  <exclusions>
-    <exclusion>
-      <groupId>com.google.protobuf</groupId>
-      <artifactId>protobuf-java</artifactId>
-    </exclusion>
-  </exclusions> 
-</dependency>
-```
-
-### Build From Source
-
-This driver can also be complied and installed from the source available in this repository. Please refer to the MySQL Connector/J documentation for [detailed instructions](https://dev.mysql.com/doc/connector-j/8.0/en/connector-j-installing-source.html) on how to do it.
-
-### GitHub Repository
-
-This repository contains the MySQL Connector/J source code as per the latest release. No changes are made in this repository between releases.
-
-## Contributing
-
-There are a few ways to contribute to the MySQL Connector/J code. Please refer to the [contributing guidelines](CONTRIBUTING.md) for additional information.
-
-## Additional Resources
-
-* [MySQL Connector/J Developer Guide](https://dev.mysql.com/doc/connector-j/8.0/en/).
-* [MySQL Connector/J X DevAPI Reference](https://dev.mysql.com/doc/dev/connector-j/8.0/).
-* [MySQL Connector/J, JDBC and Java forum](https://forums.mysql.com/list.php?39).
-* [`#connectors` channel in MySQL Community Slack](https://mysqlcommunity.slack.com/messages/connectors). ([Sign-up](https://lefred.be/mysql-community-on-slack/) required if you do not have an Oracle account.)
-* [@MySQL on Twitter](https://twitter.com/MySQL).
-* [MySQL Blog](https://blogs.oracle.com/mysql/).
-* [MySQL Connectors Blog archive](https://dev.mysql.com/blog-archive/?cat=Connectors%20%2F%20Languages).
-* [MySQL Newsletter](https://www.mysql.com/news-and-events/newsletter/).
-* [MySQL Bugs Database](https://bugs.mysql.com/).
-
-For more information about this and other MySQL products, please visit [MySQL Contact & Questions](https://www.mysql.com/about/contact/).
-
-[![Twitter Follow](https://img.shields.io/twitter/follow/MySQL.svg?label=Follow%20%40MySQL&style=social)](https://twitter.com/intent/follow?screen_name=MySQL)
+如果你有任何问题、建议或反馈，欢迎通过 [GitHub Issues](https://github.com/你的仓库地址/issues) 联系我们。  
+或者发送邮件至：myjie215@163.com
