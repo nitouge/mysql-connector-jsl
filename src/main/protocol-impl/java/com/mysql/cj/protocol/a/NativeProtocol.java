@@ -1438,10 +1438,12 @@ public class NativeProtocol extends AbstractProtocol<NativePacketPayload> implem
 
     public void connect(String user, String password, String database) {
         // session creation & initialization happens here
-
+        System.out.println("\n------------------------ NativeProtocol connect start ------------------------");
         beforeHandshake();
 
         this.authProvider.connect(user, password, database);
+
+        System.out.println("------------------------ NativeProtocol connect end ------------------------\n");
     }
 
     protected boolean isDataAvailable() {

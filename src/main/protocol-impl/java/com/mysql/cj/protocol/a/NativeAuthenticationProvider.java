@@ -133,6 +133,7 @@ public class NativeAuthenticationProvider implements AuthenticationProvider<Nati
      */
     @Override
     public void connect(String user, String pass, String db) {
+        System.out.println("\n------------------------ 【NativeAuthenticationProvider】 connect start ------------------------");
         ServerSession sessState = this.protocol.getServerSession();
         this.username = user;
         this.password = pass;
@@ -213,6 +214,7 @@ public class NativeAuthenticationProvider implements AuthenticationProvider<Nati
         proceedHandshakeWithPluggableAuthentication(buf);
 
         this.password = null;
+        System.out.println("\n------------------------【NativeAuthenticationProvider】 connect end ------------------------");
     }
 
     /**
@@ -368,6 +370,7 @@ public class NativeAuthenticationProvider implements AuthenticationProvider<Nati
      *            Otherwise null.
      */
     private void proceedHandshakeWithPluggableAuthentication(final NativePacketPayload challenge) {
+        System.out.println("\n***************【NativeAuthenticationProvider】 proceedHandshakeWithPluggableAuthentication start***************");
         ServerSession serverSession = this.protocol.getServerSession();
 
         if (this.authenticationPlugins == null) {
@@ -415,7 +418,10 @@ public class NativeAuthenticationProvider implements AuthenticationProvider<Nati
             plugin = getAuthenticationPlugin(this.clientDefaultAuthenticationPluginName);
             skipPassword = true;
         }
-
+        if (null != plugin) {
+            System.out.println("===> authentication plugin name: " + pluginName + ", class: "
+                    + plugin.getClass().getName() + ", protocol plugin name: " + plugin.getProtocolPluginName());
+        }
         checkConfidentiality(plugin);
 
         // Servers not affected by Bug#70865 expect the Change User Request containing a correct answer to seed sent by the server during the initial handshake,
@@ -537,6 +543,7 @@ public class NativeAuthenticationProvider implements AuthenticationProvider<Nati
         if (!this.useConnectWithDb) {
             this.protocol.changeDatabase(this.database);
         }
+        System.out.println("\n***************【NativeAuthenticationProvider】 proceedHandshakeWithPluggableAuthentication end***************");
     }
 
     private String getNthFactorPassword(int nthFactor) {

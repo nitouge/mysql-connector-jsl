@@ -99,11 +99,12 @@ public class CRUDDemo {
     public void normalQueryAccount() throws Exception {
         try (Connection conn = JDBCUtils.getConnection();
              Statement st = conn.createStatement();
-             ResultSet rs = st.executeQuery("SELECT * FROM t_account")) {
+             ResultSet rs = st.executeQuery("SELECT sleep(300)")) {
+             // ResultSet rs = st.executeQuery("SELECT * FROM t_account")) {
 
-            while (rs.next()) {
-                System.out.println(rs.getInt("id") + " - " + rs.getString("username"));
-            }
+            // while (rs.next()) {
+            //     System.out.println(rs.getInt("id") + " - " + rs.getString("username"));
+            // }
         }
     }
 

@@ -12,8 +12,8 @@ public class JDBCUtils {
             "&characterEncoding=UTF-8" +
             "&autoReconnect=true" +
             "&useSSL=false" +
-            "&connectTimeout=600000" +      // 连接超时600秒
-            "&socketTimeout=600000" +       // 读写超时600秒
+            "&connectTimeout=300000" +
+            // "&socketTimeout=600000" +
             "&serverTimezone=Asia/Shanghai";
 
     private static final String URL_CURSOR = "jdbc:mysql://localhost:3306/test?" +
@@ -21,8 +21,8 @@ public class JDBCUtils {
             "&characterEncoding=UTF-8" +
             "&autoReconnect=true" +
             "&useSSL=false" +
-            "&connectTimeout=600000" +      // 连接超时600秒
-            "&socketTimeout=600000" +       // 读写超时600秒
+            "&connectTimeout=300000" +
+            "&socketTimeout=600000" +
             "&serverTimezone=GMT%2B8";
 
     private static final String URL_REWRITE = "jdbc:mysql://localhost:3306/test?" +
@@ -31,8 +31,8 @@ public class JDBCUtils {
             "&rewriteBatchedStatements=true" +
             // "&maxRewriteBatchSize=5000" +
             "&useSSL=false" +
-            "&connectTimeout=600000" +      // 连接超时600秒
-            "&socketTimeout=600000" +       // 读写超时600秒
+            "&connectTimeout=300000" +
+            "&socketTimeout=600000" +
             "&serverTimezone=Asia/Shanghai";
 
     private static final String URL_MULTI = "jdbc:mysql://localhost:3306/test?" +
@@ -41,19 +41,20 @@ public class JDBCUtils {
             "&allowMultiQueries=true" +
             // "&rewriteBatchedStatements=true" +
             "&useSSL=false" +
-            "&connectTimeout=600000" +      // 连接超时600秒
-            "&socketTimeout=600000" +       // 读写超时600秒
+            "&connectTimeout=300000" +
+            "&socketTimeout=600000" +
             "&serverTimezone=Asia/Shanghai";
 
     private static final String URL_TRACE_PROTOCOL = "jdbc:mysql://localhost:3306/test?" +
             "&characterEncoding=UTF-8" +
             "&autoReconnect=true" +
             "&useReadAheadInput=false" +
+            "&useUnbufferedInput=false" +
             "&traceProtocol=true" +
             "&rewriteBatchedStatements=true" +
             "&useSSL=false" +
-            "&connectTimeout=600000" +      // 连接超时600秒
-            "&socketTimeout=600000" +       // 读写超时600秒
+            "&connectTimeout=300000" +
+            "&socketTimeout=600000" +
             "&serverTimezone=Asia/Shanghai";
 
     private static final String URL_FORWARD_CONSUMING = "jdbc:mysql://localhost:3306/test?" +
@@ -64,8 +65,8 @@ public class JDBCUtils {
             "&traceProtocol=false" +
             "&rewriteBatchedStatements=true" +
             "&useSSL=false" +
-            "&connectTimeout=600000" +      // 连接超时600秒
-            "&socketTimeout=600000" +       // 读写超时600秒
+            "&connectTimeout=300000" +
+            "&socketTimeout=600000" +
             "&serverTimezone=Asia/Shanghai";
 
     private static final String USER = "root";

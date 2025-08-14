@@ -109,7 +109,7 @@ public class NativeSession extends CoreSession implements Serializable {
     }
 
     public void connect(HostInfo hi, String user, String password, String database, int loginTimeout, TransactionEventHandler transactionManager) throws IOException {
-        System.out.println("\nNativeSession connect.........");
+        System.out.println("\n-------------------------------NativeSession connect start-------------------------------");
         this.hostInfo = hi;
 
         // reset max-rows to default value
@@ -135,7 +135,7 @@ public class NativeSession extends CoreSession implements Serializable {
         this.isClosed = false;
 
         this.commandBuilder = new NativeMessageBuilder(this.getServerSession().supportsQueryAttributes());
-        System.out.println("NativeSession connect end");
+        System.out.println("\n-------------------------------NativeSession connect end-------------------------------");
     }
 
     // TODO: this method should not be used in user-level APIs

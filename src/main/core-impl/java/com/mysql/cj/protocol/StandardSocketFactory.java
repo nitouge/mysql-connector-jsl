@@ -113,7 +113,7 @@ public class StandardSocketFactory implements SocketFactory {
 
     @SuppressWarnings("unchecked")
     public <T extends Closeable> T connect(String hostname, int portNumber, PropertySet pset, int loginTimeout) throws IOException {
-        System.out.println("\n=======> StandardSocketFactory connect............");
+        System.out.println("\n-------------------------【StandardSocketFactory】 connect start-------------------------");
         this.loginTimeoutCountdown = loginTimeout;
 
         if (pset != null) {
@@ -143,7 +143,7 @@ public class StandardSocketFactory implements SocketFactory {
                         this.rawSocket = createSocket(pset);
                         System.out.println("StandardSocketFactory createSocket: " + this.rawSocket.getInetAddress() + ":" + this.rawSocket.getPort());
                         configureSocket(this.rawSocket, pset);
-                        System.out.println("StandardSocketFactory configureSocket");
+                        System.out.println("StandardSocketFactory configureSocket: " + this.rawSocket.getInetAddress() + ":" + this.rawSocket.getPort());
                         InetSocketAddress sockAddr = new InetSocketAddress(possibleAddresses[i], this.port);
                         // bind to the local port if not using the ephemeral port
                         if (localSockAddr != null) {
@@ -166,7 +166,14 @@ public class StandardSocketFactory implements SocketFactory {
                 }
 
                 resetLoginTimeCountdown();
-                System.out.println("=======>  StandardSocketFactory connect end and return socket SO_TIMEOUT: " + this.rawSocket.getSoTimeout());
+                System.out.println("【StandardSocketFactory】 return the socket:"
+                        + "\n\t InetAddress = " + this.rawSocket.getInetAddress()
+                        + "\n\t Port = " + this.rawSocket.getPort()
+                        + "\n\t RemoteSocketAddress = " + this.rawSocket.getRemoteSocketAddress()
+                        + "\n\t LocalSocketAddress = " + this.rawSocket.getLocalSocketAddress()
+                        + "\n\t LocalAddress = " + this.rawSocket.getLocalAddress()
+                        + "\n\t LocalPort = " + this.rawSocket.getLocalPort());
+                System.out.println("\n-------------------------【StandardSocketFactory】 connect end-------------------------");
                 this.sslSocket = this.rawSocket;
                 return (T) this.rawSocket;
             }

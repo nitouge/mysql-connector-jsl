@@ -826,7 +826,7 @@ public class ConnectionImpl implements JdbcConnection, SessionEventListener, Ser
     }
 
     private void connectWithRetries(boolean isForReconnect) throws SQLException {
-        System.out.println("\n********************************** ConnectionImpl connectWithRetries **********************************");
+        System.out.println("\n********************************** 【ConnectionImpl】 connectWithRetries **********************************");
         double timeout = this.propertySet.getIntegerProperty(PropertyKey.initialTimeout).getValue();
         boolean connectionGood = false;
 

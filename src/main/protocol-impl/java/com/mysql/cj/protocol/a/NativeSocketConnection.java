@@ -52,7 +52,7 @@ public class NativeSocketConnection extends AbstractSocketConnection implements 
 
     @Override
     public void connect(String hostName, int portNumber, PropertySet propSet, ExceptionInterceptor excInterceptor, Log log, int loginTimeout) {
-        System.out.println("\n---------NativeSocketConnection connect............");
+        System.out.println("\n************************** 【NativeSocketConnection】 connect start **************************");
         try {
             this.port = portNumber;
             this.host = hostName;
@@ -77,22 +77,23 @@ public class NativeSocketConnection extends AbstractSocketConnection implements 
             InputStream rawInputStream;
             if (propSet.getBooleanProperty(PropertyKey.useReadAheadInput).getValue()) {
                 Boolean traceProtocol = propSet.getBooleanProperty(PropertyKey.traceProtocol).getValue();
-                System.out.println("NativeSocketConnection useReadAheadInput is true and traceProtocol: " + traceProtocol);
+                System.out.println("【NativeSocketConnection】 &useReadAheadInput=true and &traceProtocol=" + traceProtocol);
                 rawInputStream = new ReadAheadInputStream(this.mysqlSocket.getInputStream(), 16384, traceProtocol, log);
             } else if (propSet.getBooleanProperty(PropertyKey.useUnbufferedInput).getValue()) {
+                System.out.println("【NativeSocketConnection】 &useUnbufferedInput=true");
                 rawInputStream = this.mysqlSocket.getInputStream();
             } else {
+                System.out.println("【NativeSocketConnection】&useReadAheadInput=false and &useUnbufferedInput=false, so use default BufferedInputStream");
                 rawInputStream = new BufferedInputStream(this.mysqlSocket.getInputStream(), 16384);
             }
 
             this.mysqlInput = new FullReadInputStream(rawInputStream);
             this.mysqlOutput = new BufferedOutputStream(this.mysqlSocket.getOutputStream(), 16384);
-            System.out.println("NativeSocketConnection get mysqlInput = " + mysqlInput + ", mysqlOutput = " + mysqlOutput);
+            System.out.println("【NativeSocketConnection】===> mysqlInput = " + mysqlInput.getClass() + ", mysqlOutput = " + mysqlOutput.getClass());
         } catch (IOException ioEx) {
-            throw ExceptionFactory.createCommunicationsException(propSet, null, new PacketSentTimeHolder() {
-            }, null, ioEx, getExceptionInterceptor());
+            throw ExceptionFactory.createCommunicationsException(propSet, null, new PacketSentTimeHolder() {}, null, ioEx, getExceptionInterceptor());
         }
-        System.out.println("NativeSocketConnection connect end");
+        System.out.println("\n**************************【NativeSocketConnection】 connect end **************************\n");
     }
 
     @Override

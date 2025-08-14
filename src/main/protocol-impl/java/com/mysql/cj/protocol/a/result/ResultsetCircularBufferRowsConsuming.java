@@ -51,6 +51,9 @@ public class ResultsetCircularBufferRowsConsuming extends AbstractResultsetRows 
             afterLast();
             return null;
         }
+        System.out.println("【ResultsetCircularBufferRowsConsuming.next()】 currentPositionInFetchedRows: "
+                + this.currentPositionInFetchedRows
+                + ", row size: " + this.buffer.size());
 
         Row row = buffer.removeFirst();
 
@@ -170,23 +173,27 @@ public class ResultsetCircularBufferRowsConsuming extends AbstractResultsetRows 
     private void adjustCapacity() {
         int curCap = buffer.capacity();
         int curSize = buffer.size();
+        System.out.println("ResultsetCircularBufferRowsConsuming 【before】 adjustCapacity capacity: " + curCap + ", size: " + curSize);
 
         // 1) 元素数驱动的快速扩容/缩容（低成本判断）
         if (curSize > curCap * 0.75) {
             int newCap = Math.max(curCap + curCap / 2, curSize + 1); // 1.5x
             buffer.resizeTo(newCap);
+            System.out.println("ResultsetCircularBufferRowsConsuming 【after】 adjustCapacity 1.5 x capacity: " + curCap + ", size: " + curSize);
             return;
         }
 
         if (curCap > 10000 && curSize < curCap / 4 && curCap > DEFAULT_CAPACITY) {
             int shrinkTo = Math.max(DEFAULT_CAPACITY, Math.max(curSize * 2, DEFAULT_CAPACITY));
             buffer.resizeTo(shrinkTo);
+            System.out.println("ResultsetCircularBufferRowsConsuming 【after】 adjustCapacity 2 x capacity: "
+                    + buffer.capacity()
+                    + ", size: " + buffer.size());
             return;
         }
 
         // 2) 基于字节的阈值策略（更细粒度）
         long estBytes = this.estimatedBufferBytes;
-
         if (estBytes > MAX_BUFFER_BYTES) {
             // 估算平均每行字节，计算一个按字节目标容量（保守）
             int avg = curSize > 0 ? (int) Math.max(1, estBytes / curSize) : 64;
@@ -195,9 +202,16 @@ public class ResultsetCircularBufferRowsConsuming extends AbstractResultsetRows 
                 int newCap = Math.max(curCap + curCap / 2, desiredByBytes);
                 buffer.resizeTo(newCap);
             }
+            System.out.println("ResultsetCircularBufferRowsConsuming 【after】 adjustCapacity when estimatedBufferBytes > 64MB : "
+                    + buffer.capacity()
+                    + ", size: " + buffer.size());
+
         } else if (estBytes < MIN_BUFFER_BYTES && curSize < curCap / 4 && curCap > DEFAULT_CAPACITY) {
             int shrinkTo = Math.max(DEFAULT_CAPACITY, Math.max(curSize * 2, DEFAULT_CAPACITY));
             buffer.resizeTo(shrinkTo);
+            System.out.println("ResultsetCircularBufferRowsConsuming 【after】 adjustCapacity when estimatedBufferBytes < 8MB : "
+                    + buffer.capacity()
+                    + ", size: " + buffer.size());
         }
     }
 }
