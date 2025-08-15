@@ -1,4 +1,4 @@
-package com.mysql.cj.lsj.demo;
+package com.mysql.cj.lsj.demo.isolation;
 
 import com.mysql.cj.lsj.utils.JDBCUtils;
 
@@ -6,6 +6,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * 幻读
+ */
 public class PhantomReadDemo {
 
     public static void main(String[] args) throws Exception {

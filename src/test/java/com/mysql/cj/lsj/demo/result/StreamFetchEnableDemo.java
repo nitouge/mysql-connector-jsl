@@ -1,4 +1,4 @@
-package com.mysql.cj.lsj.demo;
+package com.mysql.cj.lsj.demo.result;
 
 import com.mysql.cj.lsj.utils.JDBCUtils;
 import com.mysql.cj.lsj.utils.MapUtils;
