@@ -78,23 +78,24 @@ public class BatchInsertDemo {
      * 4. 10万数据，批次2000，耗时：690ms，查看底层协议包
      * 6. 10万数据，批次1000，耗时：782ms，查看底层协议包
      * 7. 10万数据，批次500，耗时：857ms，查看底层协议包
-     *
-     *
+     * 8. 100万数据，批次1000，耗时6410ms -- 普通一条一条插入86517ms
+     * 9. 100万数据，批次2000，耗时6111ms -- 普通一条一条插入86574ms
+     *10. 100万数据，批次5000，耗时6147ms -- 普通一条一条插入92197ms
      *
      * @throws Exception
      */
     @Test
     public void runBatchInsertRewriteBatchedStatements() throws Exception {
         System.out.println("\n======== 批处理（开启rewriteBatchedStatements=true） ========");
-        try (Connection conn = JDBCUtils.getRewriteBatchedConnection()) {
+        try (Connection conn = JDBCUtils.getRewriteBatchedConnection();) {
             conn.setAutoCommit(false);
             try (PreparedStatement ps = conn.prepareStatement("INSERT INTO t_batch_test(username, age) VALUES (?, ?)")) {
                 long start = System.currentTimeMillis();
-                for (int i = 1; i <= BATCH_ROWS; i++) {
+                for (int i = 1; i <= 1_000_000; i++) {
                     ps.setString(1, "name_" + i);
                     ps.setInt(2, 40 + (new Random().nextInt(10)));
                     ps.addBatch();
-                    if (i % 10 == 0) {
+                    if (i % 2000 == 0) {
                         ps.executeBatch(); // 批量提交
                     }
                 }
