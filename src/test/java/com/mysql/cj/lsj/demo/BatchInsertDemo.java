@@ -35,7 +35,7 @@ public class BatchInsertDemo {
              PreparedStatement ps = conn.prepareStatement("INSERT INTO t_batch_test(username, age) VALUES (?, ?)")) {
             conn.setAutoCommit(false);
             long start = System.currentTimeMillis();
-            for (int i = 0; i < BATCH_ROWS; i++) {
+            for (int i = 1; i <= BATCH_ROWS; i++) {
                 ps.setString(1, "name_" + i);
                 ps.setInt(2, 40 + (new Random().nextInt(10)));
                 ps.executeUpdate();
@@ -54,7 +54,7 @@ public class BatchInsertDemo {
              PreparedStatement ps = conn.prepareStatement("INSERT INTO t_batch_test(username, age) VALUES (?, ?)")) {
             conn.setAutoCommit(false);
             long start = System.currentTimeMillis();
-            for (int i = 0; i < BATCH_ROWS; i++) {
+            for (int i = 1; i <= BATCH_ROWS; i++) {
                 ps.setString(1, "name_" + i);
                 ps.setInt(2, 40 + (new Random().nextInt(10)));
                 ps.addBatch();
@@ -90,11 +90,11 @@ public class BatchInsertDemo {
             conn.setAutoCommit(false);
             try (PreparedStatement ps = conn.prepareStatement("INSERT INTO t_batch_test(username, age) VALUES (?, ?)")) {
                 long start = System.currentTimeMillis();
-                for (int i = 0; i < BATCH_ROWS; i++) {
+                for (int i = 1; i <= BATCH_ROWS; i++) {
                     ps.setString(1, "name_" + i);
                     ps.setInt(2, 40 + (new Random().nextInt(10)));
                     ps.addBatch();
-                    if (i % 5000 == 0) {
+                    if (i % 10 == 0) {
                         ps.executeBatch(); // 批量提交
                     }
                 }
@@ -122,7 +122,7 @@ public class BatchInsertDemo {
                         .append(");");
 
                 // 控制批次大小
-                if (i % 1000 == 0 && i != 0) {
+                if (i % 1000 == 0 && i != 0) { // 或者i从1开始
                     stmt.execute(sb.toString());
                     sb.setLength(0); // 清空
                 }
@@ -145,7 +145,7 @@ public class BatchInsertDemo {
             conn.setAutoCommit(false);
             try (PreparedStatement ps = conn.prepareStatement("INSERT INTO t_batch_test(username, age) VALUES (?, ?)")) {
                 long start = System.currentTimeMillis();
-                for (int i = 0; i < 1; i++) {
+                for (int i = 1; i <= 1; i++) {
                     ps.setString(1, "name_" + i);
                     ps.setInt(2, 40 + (new Random().nextInt(10)));
                     ps.addBatch();
